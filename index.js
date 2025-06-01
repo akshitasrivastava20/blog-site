@@ -3,9 +3,10 @@ const path=require('path');
 const app=express();
 const PORT=8000
 const mongoose=require("mongoose");
-
+const cookieParser=require('cookie-parser');
 mongoose.connect("mongodb://127.0.0.1:27017/blogify").then((e)=> console.log("mongodb connected"));
-const userRouter=require("./routes/user")
+const userRouter=require("./routes/user");
+const { checkForAuthenticationCookie } = require('./middlewares/authentication');
 
 app.set('view engine',"ejs");
 app.set("views",path.resolve("./views"));
@@ -13,9 +14,12 @@ app.set("views",path.resolve("./views"));
 app.use(express.urlencoded({extended:true})
 );
 app.use(express.json());
-
+app.use(cookieParser());
+app.use(checkForAuthenticationCookie("token"));
 app.get('/',(req,res)=>{
-    return res.render("homepage");
+    return res.render("homepage",{
+        user:req.user,
+    });
 })
  app.use("/user",userRouter);
 
