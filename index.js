@@ -6,6 +6,7 @@ const mongoose=require("mongoose");
 const cookieParser=require('cookie-parser');
 mongoose.connect("mongodb://127.0.0.1:27017/blogify").then((e)=> console.log("mongodb connected"));
 const userRouter=require("./routes/user");
+const blogRouter=require("./routes/blog")
 const { checkForAuthenticationCookie } = require('./middlewares/authentication');
 
 app.set('view engine',"ejs");
@@ -22,6 +23,8 @@ app.get('/',(req,res)=>{
     });
 })
  app.use("/user",userRouter);
+ app.use('/blog',blogRouter);
+ 
 
 app.listen(PORT,()=>{
     console.log("servver started");
