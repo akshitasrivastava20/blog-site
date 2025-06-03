@@ -28,8 +28,7 @@
           <%= blog.body %>
         </p>
         
-        <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">
-          Created by: <strong><%= blog.createdBy %></strong>
+       <a href="/blog/<%= blog._id %>" class="btn btn-primary"><%= blog.createdBy %></a>
         </p>
       </div>
     </div>
