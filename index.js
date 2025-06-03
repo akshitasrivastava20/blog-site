@@ -8,18 +8,24 @@ mongoose.connect("mongodb://127.0.0.1:27017/blogify").then((e)=> console.log("mo
 const userRouter=require("./routes/user");
 const blogRouter=require("./routes/blog")
 const { checkForAuthenticationCookie } = require('./middlewares/authentication');
+const Blog=require('./models/blog')
+
 
 app.set('view engine',"ejs");
 app.set("views",path.resolve("./views"));
+app.use(express.static(path.resolve("./public")));
 
 app.use(express.urlencoded({extended:true})
 );
 app.use(express.json());
 app.use(cookieParser());
 app.use(checkForAuthenticationCookie("token"));
-app.get('/',(req,res)=>{
+app.get('/',async(req,res)=>{
+    const allBlogs=await Blog.find({});
+
     return res.render("homepage",{
         user:req.user,
+        blogs:allBlogs,
     });
 })
  app.use("/user",userRouter);
