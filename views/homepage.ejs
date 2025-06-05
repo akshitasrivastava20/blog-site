@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <%- include('./partials/head') %>
-  <title>Square Blog Cards</title>
+  <title>Blogs</title>
 
   
 
@@ -28,8 +28,8 @@
           <%= blog.body %>
         </p>
         
-       <a href="/blog/<%= blog._id %>" class="btn btn-primary"><%= blog.createdBy %></a>
-        </p>
+       <a href="/blog/<%= blog._id %>" class="btn btn-primary"> view </a>
+      
       </div>
     </div>
   <% }) %>

@@ -66,4 +66,4 @@ userSchema.static('matchPasswordAndGenerateToken',async function(email,password)
 })
 
 const User=model('User',userSchema);
-module.exports=User
+module.exports=User;
