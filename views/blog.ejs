@@ -1,22 +1,175 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <%- include('./partials/head')%>
-    <title>Blog-vIEW</title>
+   <%- include('./partials/head') %>
+   <title>Blog View</title>
+   <style>
+     /* Comment Form Styling */
+     .comment-form {
+       max-width: 400px;
+       margin: 30px auto;
+       padding: 20px;
+       border: 1px solid #ccc;
+       border-radius: 10px;
+       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+       background-color: #f9f9f9;
+       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+     }
+
+     .comment-form h3 {
+       margin-bottom: 16px;
+       font-size: 20px;
+       color: #333;
+       border-bottom: 1px solid #ddd;
+       padding-bottom: 8px;
+     }
+
+     .comment-form label {
+       display: block;
+       margin-top: 12px;
+       font-weight: 600;
+       color: #444;
+     }
+
+     .comment-form textarea,
+     .comment-form input {
+       width: 100%;
+       padding: 10px 12px;
+       margin-top: 6px;
+       margin-bottom: 14px;
+       border: 1px solid #bbb;
+       border-radius: 6px;
+       font-size: 15px;
+       transition: border-color 0.2s;
+     }
+
+     .comment-form textarea:focus,
+     .comment-form input:focus {
+       border-color: #007bff;
+       outline: none;
+     }
+
+     .comment-form button {
+       padding: 10px 20px;
+       background-color: #007bff;
+       border: none;
+       color: white;
+       font-size: 16px;
+       border-radius: 6px;
+       cursor: pointer;
+       transition: background-color 0.2s;
+     }
+
+     .comment-form button:hover {
+       background-color: #0056b3;
+     }
+
+     /* Blog Content Styling */
+     .blog-container {
+       max-width: 800px;
+       margin: 40px auto;
+       padding: 20px;
+       background-color: white;
+       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+       border-radius: 12px;
+       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     }
+
+     .blog-title {
+       font-size: 32px;
+       font-weight: 700;
+       margin-bottom: 12px;
+       color: #222;
+     }
+
+     .blog-image {
+       max-width: 100%;
+       height: auto;
+       border-radius: 8px;
+       margin-bottom: 20px;
+     }
+
+     .blog-body {
+       font-size: 18px;
+       line-height: 1.8;
+       color: #333;
+       white-space: pre-wrap; /* preserves line breaks */
+     }
+
+     .author-section {
+       display: flex;
+       align-items: center;
+       margin-top: 30px;
+       gap: 15px;
+       font-size: 16px;
+       color: #555;
+     }
+
+     .author-section img {
+       width: 70px;
+       height: 70px;
+       object-fit: cover;
+       border-radius: 50%;
+       border: 2px solid #007bff;
+     }
+   </style>
 </head>
 <body>
 
-  
-  <%- include('./partials/navbar')%>
+  <%- include('./partials/navbar') %>
+
+  <div class="blog-container">
+    <h1 class="blog-title"><%= blog.title %></h1>
+
+    <img
+      src="<%= blog.coverImageUrl %>"
+      alt="Cover Image"
+      class="blog-image"
+    />
+
+    <div class="blog-body"><%= blog.body %></div>
+
+    <div class="author-section">
+      <img src="<%= blog.createdBy.profileImageUrl %>" alt="Profile Image" />
+      <span>By <strong><%= blog.createdBy.fullName %></strong></span>
+    </div>
+
+    <!-- Comment Form -->
+   
+  <% if(locals.user){ %>
+    <form action="/blog/comment/<%= blog._id %>" method="POST" class="comment-form">
+      <h3>Leave a Comment</h3>
+
+      <label for="content">Comment:<%= comments %></label>
+      <textarea
+        id="content"
+        name="content"
+        rows="3"
+        required
+        placeholder="Write your comment..."
+      ></textarea>
+
+      
+
+      <button type="submit">Submit</button>
+    </form>
   <div>
-  <h1><%= blog.title %></h1>
-  <img src="<%= blog.coverImageUrl %>" width="600px" mx-4 alt="">
-  <pre class><%= blog.body %> </pre>
+   <% comments.forEach(comment=> { %>
+      <div>
+         <img src="<%= comment.createdBy.profileImageUrl %>"width="50px" alt=""/>
+         <%= comment.createdBy.fullName %>: <pre><%= comment.content %></pre>
+      </div>
+  <% })%>
   </div>
-  <div >
-     <img src="<%= blog.createdBy.profileImageUrl %>" width="100px"="Profile Image" ><%= blog.createdBy.fullName %>
+   
+   <% } %>
   </div>
+  
+
 
   <%- include('./partials/scripts') %>
 </body>
 </html>
+
