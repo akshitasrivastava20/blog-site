@@ -1,10 +1,13 @@
+require("dotenv").config();
+
+
 const express=require('express');
 const path=require('path');
 const app=express();
-const PORT=8000
+const PORT=process.env.PORT||8000;
 const mongoose=require("mongoose");
 const cookieParser=require('cookie-parser');
-mongoose.connect("mongodb://127.0.0.1:27017/blogify").then((e)=> console.log("mongodb connected"));
+mongoose.connect(process.env.MONGO_URL).then((e)=> console.log("mongodb connected"));
 const userRouter=require("./routes/user");
 const blogRouter=require("./routes/blog")
 const { checkForAuthenticationCookie } = require('./middlewares/authentication');
@@ -33,5 +36,6 @@ app.get('/',async(req,res)=>{
  
 
 app.listen(PORT,()=>{
-    console.log("servver started");
+    console.log(`servver startedat${PORT}`);
+
 })
